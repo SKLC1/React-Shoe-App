@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Shoe from '../Shoe/Shoe';
+import Popup from '../editPopup/popup';
 import './products.css'
 
 
 class Products extends Component {
   constructor(){
     super()
-    this.state={ prodList: [] , newShoeName: '', newShoePrice: '',newShoeImage: ''}
+    this.state={ prodList: [] , newShoeName: '', newShoePrice: '',newShoeImage: '', isPopup: false}
   }
   getProducts=async()=>{
    const { data } = await axios.get('https://628f71e60e69410599dc83b9.mockapi.io/Shoes')
@@ -32,7 +33,8 @@ class Products extends Component {
   }
   insertProducts=()=>{
     return this.state.prodList.map((shoe)=>{
-      return <Shoe key={shoe.id} shoe={shoe} handleDelete={this.handleDelete}/>
+      return <Shoe key={shoe.id} shoe={shoe} handleDelete={this.handleDelete}
+      togglePopup={this.togglePopup} />
     })
   }
   handleDelete=(id)=>{
@@ -41,6 +43,17 @@ class Products extends Component {
       const newProdList = prev.prodList.filter((shoe)=> shoe.id !== id)
       return { prodList: newProdList }
     })
+  }
+  togglePopup=(target)=>{
+    if (target !== undefined) {
+      this.handleEdit(target.id)
+    }
+    !this.state.isPopup?
+    this.setState({isPopup: true}):
+    this.setState({isPopup: false})
+  }
+  handleEdit=(id)=>{
+    console.log(id);
   }
   componentDidMount(){
     this.getProducts()
@@ -59,6 +72,7 @@ class Products extends Component {
         <div className='products-cont'>
         {this.insertProducts()}
         </div>
+        <Popup trigger={this.state.isPopup} togglePopup={this.togglePopup}></Popup>
       </div>
     );
   }

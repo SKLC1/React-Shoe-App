@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './shoe.css'
 
-function Shoe ({shoe, handleDelete}){
+
+function Shoe ({shoe, handleDelete, togglePopup}){
   return (
     <div className='shoe-cont'>
       <div className='shoe-stats'>
@@ -11,7 +12,7 @@ function Shoe ({shoe, handleDelete}){
       </div>
       <div className='btn-cont'>
         <button id={shoe.id} onClick={(e)=>handleDelete(e.target.id)}>Delete</button> 
-        <button>Edit</button> 
+        <button id={shoe.id} onClick={(e)=>{togglePopup(e.target)}}>Edit</button> 
       </div>
     </div>
   )
