@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Shoe from '../Shoe/Shoe';
 import Popup from '../editPopup/popup';
+import { Link } from 'react-router-dom'
 import './products.css'
 
 
 class Products extends Component {
   constructor(){
     super()
-    this.state={ prodList: [] , newShoeName: '', newShoePrice: '',newShoeImage: '', isPopup: false}
+    this.state={ prodList: [] , newShoeName: '', newShoePrice: '',newShoeImage: '', isPopup: false, curEdited: ''}
   }
   getProducts=async()=>{
    const { data } = await axios.get('https://628f71e60e69410599dc83b9.mockapi.io/Shoes')
@@ -45,13 +46,13 @@ class Products extends Component {
     })
   }
   togglePopup=(target)=>{
+    console.log(target);
     !this.state.isPopup?
     this.setState({isPopup: true, curEdited: target.id}):
     this.setState({isPopup: false})
   }
   handleEdit=async(newName, newPrice, newImg)=>{
     console.log(this.state.curEdited);
-    
     const updatedShoe = this.state.prodList.find(
       (shoe) => shoe.id === this.state.curEdited
     );

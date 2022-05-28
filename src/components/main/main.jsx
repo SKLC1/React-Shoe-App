@@ -1,7 +1,7 @@
 import {Component} from 'react'
-import Products from '../products/products';
 import {BrowserRouter as Router, Routes , Route, Link} from 'react-router-dom' 
-
+import Products from '../products/products';
+import Shoe from '../Shoe/Shoe';
 class Main extends Component {
   render() { 
     return (
