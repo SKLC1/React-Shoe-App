@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Shoe from '../Shoe/Shoe';
+import './products.css'
 
 
 class Products extends Component {
@@ -31,7 +32,14 @@ class Products extends Component {
   }
   insertProducts=()=>{
     return this.state.prodList.map((shoe)=>{
-      return <Shoe key={shoe.id} shoe={shoe}/>
+      return <Shoe key={shoe.id} shoe={shoe} handleDelete={this.handleDelete}/>
+    })
+  }
+  handleDelete=(id)=>{
+    const deletedShoe = axios.delete(`https://628f71e60e69410599dc83b9.mockapi.io/Shoes/${id}`) 
+    this.setState((prev)=>{
+      const newProdList = prev.prodList.filter((shoe)=> shoe.id !== id)
+      return { prodList: newProdList }
     })
   }
   componentDidMount(){
@@ -48,7 +56,9 @@ class Products extends Component {
           <input id='newShoeImage' onChange={this.handleInputChange} value={this.state.newShoeImage} 
           placeholder="Shoe Price"/>
         </div>
+        <div className='products-cont'>
         {this.insertProducts()}
+        </div>
       </div>
     );
   }

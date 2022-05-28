@@ -1,0 +1,5 @@
+
+.products-cont{
+  display: flex;
+  flex-wrap: wrap;
+}

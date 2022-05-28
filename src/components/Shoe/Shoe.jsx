@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './shoe.css'
 
-function Shoe ({shoe}){
+function Shoe ({shoe, handleDelete}){
   return (
     <div className='shoe-cont'>
       <div className='shoe-stats'>
@@ -10,7 +10,7 @@ function Shoe ({shoe}){
        <p>Price: ${shoe.price}</p>
       </div>
       <div className='btn-cont'>
-        <button>Delete</button> 
+        <button id={shoe.id} onClick={(e)=>handleDelete(e.target.id)}>Delete</button> 
         <button>Edit</button> 
       </div>
     </div>
