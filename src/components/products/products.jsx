@@ -45,15 +45,31 @@ class Products extends Component {
     })
   }
   togglePopup=(target)=>{
-    if (target !== undefined) {
-      this.handleEdit(target.id)
-    }
     !this.state.isPopup?
-    this.setState({isPopup: true}):
+    this.setState({isPopup: true, curEdited: target.id}):
     this.setState({isPopup: false})
   }
-  handleEdit=(id)=>{
-    console.log(id);
+  handleEdit=async(newName, newPrice, newImg)=>{
+    console.log(this.state.curEdited);
+    
+    const updatedShoe = this.state.prodList.find(
+      (shoe) => shoe.id === this.state.curEdited
+    );
+    const updated = {...updatedShoe, 
+    name: newName,
+    price: newPrice,
+    img: newImg,
+    }
+    const {data} = await axios.put(`https://628f71e60e69410599dc83b9.mockapi.io/Shoes/${this.state.curEdited}`, updated)
+    this.setState((prev)=> {
+      return prev.prodList.map((shoe)=>{
+        if(shoe.id === this.state.curEdited) {
+          return data
+        }
+        return shoe
+      })
+    })
+    this.togglePopup()
   }
   componentDidMount(){
     this.getProducts()
@@ -72,7 +88,8 @@ class Products extends Component {
         <div className='products-cont'>
         {this.insertProducts()}
         </div>
-        <Popup trigger={this.state.isPopup} togglePopup={this.togglePopup}></Popup>
+        <Popup trigger={this.state.isPopup} togglePopup={this.togglePopup} 
+        handleEdit={this.handleEdit} curEdited={this.state.curEdited}></Popup>
       </div>
     );
   }
